@@ -3,9 +3,18 @@ plugins {
     alias(libs.plugins.kotlin.android)
 }
 
+// Read API KEY
+val weather_api_key = project.findProperty("WEATHER_API_KEY") as String? ?: ""
+
 android {
     namespace = "com.example.eliteweatherapp"
     compileSdk = 35
+
+    // Enable View Binding
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
+    }
 
     defaultConfig {
         applicationId = "com.example.eliteweatherapp"
@@ -15,11 +24,19 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // READ API KEY
+        buildConfigField("String", "WEATHER_API_KEY", "\"$weather_api_key\"")
     }
 
     buildTypes {
+        // Set buildConfig to true
+        android.buildFeatures.buildConfig = true
+        debug {
+            isMinifyEnabled = true
+        }
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -45,4 +62,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    // Enable Internet Access
+    implementation("com.codepath.libraries:asynchttpclient:2.2.0")
+
+    // Enable View Change
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
 }
