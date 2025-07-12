@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Elite Weather</string>
+    <string name="app_icon">App Icon</string>
+    <string name="enter_location">Enter location</string>
+    <string name="forecast_title">3-Day Forecast</string>
+    <string name="forecast_today_title">Today</string>
+    <string name="weather_icon">Weather Icon</string>
+    <string name="forecast_tomorrow_title">Tomorrow</string>
+    <string name="forecast_day_after_title">Day After</string>
+    <string name="air_quality_title">Air Quality</string>
+    <string name="air_index_title">Index</string>
+</resources>

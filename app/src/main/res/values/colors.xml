@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Header Color   -->
+    <color name="header_start_color">#0B1C2E</color> <!-- Dark Navy Blue -->
+    <color name="header_end_color">#C2574D</color> <!-- Coral red -->
+</resources>
