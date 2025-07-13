@@ -136,7 +136,6 @@
                     android:id="@+id/day1_icon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src=""
                     android:contentDescription="@string/weather_icon" />
 
                 <TextView
@@ -172,7 +171,6 @@
                     android:id="@+id/day2_icon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src=""
                     android:contentDescription="@string/weather_icon" />
 
                 <TextView
@@ -207,7 +205,6 @@
                     android:id="@+id/day3_icon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src=""
                     android:contentDescription="@string/weather_icon" />
 
                 <TextView

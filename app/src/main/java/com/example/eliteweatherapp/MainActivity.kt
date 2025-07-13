@@ -5,8 +5,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.eliteweatherapp.BuildConfig
 import com.codepath.asynchttpclient.AsyncHttpClient
+import com.example.eliteweatherapp.BuildConfig
 import com.example.eliteweatherapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -35,8 +35,8 @@ class MainActivity : AppCompatActivity() {
         val client = AsyncHttpClient()
 
         // Read the API key from the local.properties file
-
-
+        val weather_api_key = BuildConfig.WEATHER_API_KEY
+        println(weather_api_key)
     }
 
 }

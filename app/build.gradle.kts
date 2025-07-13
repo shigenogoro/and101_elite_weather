@@ -1,10 +1,20 @@
+import java.util.Properties
+import java.io.FileInputStream
+
+// Load API key from local.properties
+val localProperties = Properties().apply {
+    val localPropsFile = rootProject.file("local.properties")
+    if (localPropsFile.exists()) {
+        load(FileInputStream(localPropsFile))
+    }
+}
+
+val weather_api_key = localProperties.getProperty("WEATHER_API_KEY") ?: ""
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
 }
-
-// Read API KEY
-val weather_api_key = project.findProperty("WEATHER_API_KEY") as String? ?: ""
 
 android {
     namespace = "com.example.eliteweatherapp"
@@ -16,7 +26,7 @@ android {
         buildConfig = true
     }
 
-    defaultConfig {
+       defaultConfig {
         applicationId = "com.example.eliteweatherapp"
         minSdk = 24
         targetSdk = 35
@@ -25,15 +35,14 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // READ API KEY
         buildConfigField("String", "WEATHER_API_KEY", "\"$weather_api_key\"")
     }
 
     buildTypes {
         // Set buildConfig to true
-        android.buildFeatures.buildConfig = true
+//        android.buildFeatures.buildConfig = true
         debug {
-            isMinifyEnabled = true
+            isMinifyEnabled = false
         }
         release {
             isMinifyEnabled = true
