@@ -48,7 +48,7 @@ The following EXTRA features are implemented:
 
 ## API Choice
 
-My chosen API for this project is **[enter here](https://www.weatherapi.com/api.aspx)**.
+My chosen API for this project is **[https://www.weatherapi.com/api.aspx]**.
 
 ## Video Demo
 
