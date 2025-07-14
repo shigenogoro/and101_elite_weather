@@ -46,7 +46,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:padding="16dp"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="12dp"
         app:layout_constraintTop_toBottomOf="@id/app_header"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -63,7 +64,7 @@
             android:textColor="@android:color/white"
             android:textColorHint="#CCCCCC"
             android:paddingHorizontal="12dp"
-            android:layout_marginBottom="24dp" />
+            android:layout_marginBottom="8dp" />
 
         <!-- Current Weather -->
         <LinearLayout
@@ -72,8 +73,10 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="16dp">
+            android:padding="8dp"
+            android:layout_marginBottom="8dp">
 
+            <!-- Left: Weather info -->
             <LinearLayout
                 android:id="@+id/current_weather_info_container"
                 android:layout_width="0dp"
@@ -88,7 +91,8 @@
                     android:text=""
                     android:textColor="@android:color/white"
                     android:textSize="26sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp" />
 
                 <TextView
                     android:id="@+id/current_condition"
@@ -97,7 +101,7 @@
                     android:text=""
                     android:textColor="#CCCCCC"
                     android:textSize="18sp"
-                    android:layout_marginTop="4dp" />
+                    android:layout_marginBottom="8dp" />
 
                 <TextView
                     android:id="@+id/current_temp"
@@ -106,7 +110,7 @@
                     android:text=""
                     android:textColor="@android:color/white"
                     android:textSize="64sp"
-                    android:layout_marginTop="12dp" />
+                    android:layout_marginBottom="4dp" />
 
                 <TextView
                     android:id="@+id/feellike_temp"
@@ -114,19 +118,32 @@
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textColor="@android:color/white"
-                    android:textSize="20sp"
-                    android:layout_marginTop="12dp" />
-
+                    android:textSize="20sp" />
             </LinearLayout>
 
+            <!-- Right: Weather icon -->
             <ImageView
                 android:id="@+id/current_weather_icon"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:contentDescription="@string/weather_icon"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp" />
+                android:contentDescription="@string/weather_icon" />
         </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/refreshButton"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Refresh"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:background="@drawable/refresh_button"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/current_weather_container"
+            />
 
 
         <!-- Forecast -->
@@ -139,7 +156,7 @@
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="12dp" />
 
         <!-- Forecast Cards (repeat for 3 days) -->
         <LinearLayout
@@ -262,7 +279,7 @@
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="8dp" />
 
         <LinearLayout
             android:id="@+id/air_quality_card"
@@ -271,7 +288,7 @@
             android:orientation="horizontal"
             android:background="@drawable/card_background"
             android:padding="12dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:gravity="center_vertical">
 
             <TextView
