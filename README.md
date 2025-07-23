@@ -1,10 +1,10 @@
 <!-- (This is a comment) INSTRUCTIONS: Go through this page and fill out any **bolded** entries with their correct values.-->
 
-# AND101 Project 5 - Choose Your Own API
+# AND101 Project 6 - Recycler View
 
-Submitted by: **Elite Weather App**
+Submitted by: **Sheng-Kai Wen**
 
-Time spent: **8** hours spent in total
+Time spent: **16** hours spent in total
 
 ## Summary
 
@@ -12,39 +12,23 @@ Time spent: **8** hours spent in total
 
 If I had to describe this project in three (3) emojis, they would be: **🌞☔❄️**
 
-## Application Features
-
 <!-- (This is a comment) Please be sure to change the [ ] to [x] for any features you completed.  If a feature is not checked [x], you might miss the points for that item! -->
 
 The following REQUIRED features are completed:
 
 - [x] Make an API call to an API of your choice using AsyncHTTPClient
-- [x] Display at least three (3) pieces of data for each API entry retrieved
-- [x] A working Button requests a new API entry and updates the data displayed
+- [x] Implement a RecyclerView to display a list of entries from the API
+- [x] Display at least three (3) pieces of data for each RecyclerView item
 
 The following STRETCH features are implemented:
 
-- [x] Add a query to the API request
-    - The query I added is **Seach for another location**
-- [x] Build a UI to allow users to add that query
+- [x] Add a UI element for the user to interact with API further
+- [x] Show a `Toast` or `Snackbar` when an item is clicked
+- [] Add item dividers with `DividerItemDecoration`
 
 The following EXTRA features are implemented:
 
-- [x] List anything else that you added to improve the app!
-
-- Smart Location Search
-    Instantly get weather updates by typing any city name.
-
-- Real-Time Weather Conditions
-    See the current temperature, weather condition, and what it actually feels like outside — all updated live.
-
-- 3-Day Forecast Overview
-    Plan ahead with a clear and simple 3-day forecast, complete with temperature and weather icons.
-
-- Air Quality Index
-    Get up-to-date information on air quality so you know when it’s safe to head outdoors.
-
-
+- [ ] List anything else that you added to improve the app!
 
 ## API Choice
 
@@ -54,7 +38,7 @@ My chosen API for this project is **[https://www.weatherapi.com/api.aspx]**.
 
 Here's a video / GIF that demos all of the app's implemented features:
 
-![Demo](codepath_project5.gif)
+![Demo](codepath_project6.gif)
 
 GIF created with **LICEcap**
 
@@ -64,8 +48,6 @@ GIF created with **LICEcap**
 - [peek](https://github.com/phw/peek) for Linux. -->
 
 ## Notes
-
-
 
 ## License
 
