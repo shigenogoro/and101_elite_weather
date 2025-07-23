@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     private val executor = Executors.newSingleThreadExecutor()
     private val client = OkHttpClient()
     private val API_KEY = BuildConfig.WEATHER_API_KEY
-    private var currentLocation = "Boston"
+    private var currentLocation = "Amherst"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,13 +55,13 @@ class MainActivity : AppCompatActivity() {
 
                 val city = json.getJSONObject("location").getString("name")
                 val current = json.getJSONObject("current")
-                val temp = current.getDouble("temp_c").toInt().toString()
-                val feelsLike = current.getDouble("feelslike_c").toInt().toString()
+                val temp = current.getDouble("temp_c").toInt()
+                val feelsLike = current.getDouble("feelslike_c").toInt()
                 val conditionText = current.getJSONObject("condition").getString("text")
                 val iconUrl = "https:" + current.getJSONObject("condition").getString("icon")
                 val forecast = json.getJSONObject("forecast").getJSONArray("forecastday")
                 val aqi = json.getJSONObject("current").getJSONObject("air_quality")
-                val epaIndex = aqi.getDouble("us-epa-index").toInt().toString()
+                val epaIndex = aqi.getDouble("us-epa-index").toInt()
 
                 val forecastItems = mutableListOf<ForecastItem>()
                 for (i in 0 until 3) {
@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
                         1 -> "Tomorrow"
                         else -> date
                     }
-                    forecastItems.add(ForecastItem(label, avgTemp.toString(), icon))
+                    forecastItems.add(ForecastItem(label, avgTemp, icon))
                 }
 
                 runOnUiThread {

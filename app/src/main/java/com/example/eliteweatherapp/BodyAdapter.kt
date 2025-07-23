@@ -9,12 +9,14 @@ import com.bumptech.glide.Glide
 
 class BodyAdapter(
     private var city: String = "",
-    private var temp: Int = 0,
-    private var feelsLike: Int = 0,
+    private var temp: String = "",
+    private var feelsLike: String = "",
     private var conditionText: String = "",
     private var iconUrl: String = "",
     private var forecastList: List<ForecastItem> = listOf(),
-    private var airQualityIndex: Int = 0
+    private var airQualityIndex: String = "",
+    private val onSearch: (String) -> Unit,
+    private val onRefresh: () -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -25,7 +27,7 @@ class BodyAdapter(
         private const val TYPE_AQI = 4
     }
 
-    override fun getItemCount(): Int = 6
+    override fun getItemCount(): Int = 5
 
     override fun getItemViewType(position: Int): Int = when (position) {
         0 -> TYPE_SEARCH
@@ -47,6 +49,10 @@ class BodyAdapter(
             TYPE_CURRENT -> {
                 val view = inflater.inflate(R.layout.current_weather_container, parent, false)
                 CurrentWeatherViewHolder(view)
+            }
+            TYPE_REFRESH_BUTTON -> {
+                val view = inflater.inflate(R.layout.refresh_button, parent, false)
+                RefreshButtonViewHolder(view)
             }
             TYPE_FORECAST_LIST -> {
                 val view = inflater.inflate(R.layout.forecast_container, parent, false)
@@ -78,6 +84,13 @@ class BodyAdapter(
                 holder.index.text = "Index $airQualityIndex"
             }
 
+            is RefreshButtonViewHolder -> {
+                holder.button.setOnClickListener {
+                    onRefresh()
+                }
+            }
+
+
             // No binding needed for static headers or search bar for now
         }
     }
@@ -92,12 +105,12 @@ class BodyAdapter(
         airQualityIndex: Int
     ) {
         this.city = city
-        this.temp = temp
-        this.feelsLike = feelsLike
+        this.temp = temp.toString()
+        this.feelsLike = feelsLike.toString()
         this.conditionText = conditionText
         this.iconUrl = iconUrl
         this.forecastList = forecastList
-        this.airQualityIndex = airQualityIndex
+        this.airQualityIndex = airQualityIndex.toString()
         notifyDataSetChanged()
     }
 
@@ -110,6 +123,11 @@ class BodyAdapter(
         val condition: TextView = view.findViewById(R.id.current_condition)
         val icon: ImageView = view.findViewById(R.id.current_weather_icon)
     }
+
+    class RefreshButtonViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val button: Button = view.findViewById(R.id.refresh_button)
+    }
+
 
     class ForecastListViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
