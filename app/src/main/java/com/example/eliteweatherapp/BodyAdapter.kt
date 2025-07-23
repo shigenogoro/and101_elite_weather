@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -133,9 +135,23 @@ class BodyAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(hourlyList: List<HourlyForecastItem>) {
+            val context = binding.root.context
+
+            // Set up horizontal layout
             binding.hourlyForecastRecycler.layoutManager =
-                LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+            // Set adapter
             binding.hourlyForecastRecycler.adapter = HourlyForecastAdapter(hourlyList)
+
+            // Add divider if not already added
+            if (binding.hourlyForecastRecycler.itemDecorationCount == 0) {
+                val divider = DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL)
+                ContextCompat.getDrawable(context, R.drawable.divider_horizontal)?.let {
+                    divider.setDrawable(it)
+                    binding.hourlyForecastRecycler.addItemDecoration(divider)
+                }
+            }
         }
     }
 

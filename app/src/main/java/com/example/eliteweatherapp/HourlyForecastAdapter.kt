@@ -25,7 +25,7 @@ class HourlyForecastAdapter(private val hourlyList: List<HourlyForecastItem>) :
 
         fun bind(item: HourlyForecastItem) {
             binding.hourText.text = item.time
-            binding.hourTemp.text = item.temp.toString()
+            binding.hourTemp.text = item.temp.toString() + "°C"
             Glide.with(binding.hourIcon.context)
                 .load(item.iconUrl)
                 .into(binding.hourIcon)

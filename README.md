@@ -24,11 +24,12 @@ The following STRETCH features are implemented:
 
 - [x] Add a UI element for the user to interact with API further
 - [x] Show a `Toast` or `Snackbar` when an item is clicked
-- [] Add item dividers with `DividerItemDecoration`
+- [x] Add item dividers with `DividerItemDecoration`
 
 The following EXTRA features are implemented:
 
-- [ ] List anything else that you added to improve the app!
+- [x] List anything else that you added to improve the app!
+- Set the entire body view the RecyclerView vertically to render different sections
 
 ## API Choice
 
