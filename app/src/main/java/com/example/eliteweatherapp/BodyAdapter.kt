@@ -4,8 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.eliteweatherapp.databinding.HourlyForecastContainerBinding
 
 class BodyAdapter(
     private var city: String = "",
@@ -14,24 +16,27 @@ class BodyAdapter(
     private var conditionText: String = "",
     private var iconUrl: String = "",
     private var forecastList: List<ForecastItem> = listOf(),
+    private var hourlyForecastList: List<HourlyForecastItem> = listOf(),
     private var airQualityIndex: String = "",
     private val onRefresh: () -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         private const val TYPE_CURRENT = 0
-        private const val TYPE_REFRESH_BUTTON = 1
-        private const val TYPE_FORECAST_LIST = 2
-        private const val TYPE_AQI = 3
+        private const val TYPE_HOURLY_FORECAST = 1
+        private const val TYPE_REFRESH_BUTTON = 2
+        private const val TYPE_FORECAST_LIST = 3
+        private const val TYPE_AQI = 4
     }
 
-    override fun getItemCount(): Int = 4
+    override fun getItemCount(): Int = 5
 
     override fun getItemViewType(position: Int): Int = when (position) {
         0 -> TYPE_CURRENT
-        1 -> TYPE_REFRESH_BUTTON
-        2 -> TYPE_FORECAST_LIST
-        3 -> TYPE_AQI
+        1 -> TYPE_HOURLY_FORECAST
+        2 -> TYPE_REFRESH_BUTTON
+        3 -> TYPE_FORECAST_LIST
+        4 -> TYPE_AQI
         else -> throw IllegalArgumentException("Invalid view type")
     }
 
@@ -42,6 +47,11 @@ class BodyAdapter(
             TYPE_CURRENT -> {
                 val view = inflater.inflate(R.layout.current_weather_container, parent, false)
                 CurrentWeatherViewHolder(view)
+            }
+            TYPE_HOURLY_FORECAST -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.hourly_forecast_container, parent, false)
+                HourlyForecastViewHolder(HourlyForecastContainerBinding.bind(view))
             }
             TYPE_REFRESH_BUTTON -> {
                 val view = inflater.inflate(R.layout.refresh_button, parent, false)
@@ -82,6 +92,11 @@ class BodyAdapter(
                     onRefresh()
                 }
             }
+
+            is HourlyForecastViewHolder -> {
+                holder.binding.hourlyForecastHeader.text = "Hourly Forecast"
+                holder.bind(hourlyForecastList)
+            }
         }
     }
 
@@ -92,6 +107,7 @@ class BodyAdapter(
         conditionText: String,
         iconUrl: String,
         forecastList: List<ForecastItem>,
+        hourlyForecastList: List<HourlyForecastItem>,
         airQualityIndex: Int
     ) {
         this.city = city
@@ -100,6 +116,7 @@ class BodyAdapter(
         this.conditionText = conditionText
         this.iconUrl = iconUrl
         this.forecastList = forecastList
+        this.hourlyForecastList = hourlyForecastList
         this.airQualityIndex = airQualityIndex.toString()
         notifyDataSetChanged()
     }
@@ -110,6 +127,16 @@ class BodyAdapter(
         val feelsLike: TextView = view.findViewById(R.id.feellike_temp)
         val condition: TextView = view.findViewById(R.id.current_condition)
         val icon: ImageView = view.findViewById(R.id.current_weather_icon)
+    }
+
+    class HourlyForecastViewHolder(val binding: HourlyForecastContainerBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(hourlyList: List<HourlyForecastItem>) {
+            binding.hourlyForecastRecycler.layoutManager =
+                LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
+            binding.hourlyForecastRecycler.adapter = HourlyForecastAdapter(hourlyList)
+        }
     }
 
     class RefreshButtonViewHolder(view: View) : RecyclerView.ViewHolder(view) {

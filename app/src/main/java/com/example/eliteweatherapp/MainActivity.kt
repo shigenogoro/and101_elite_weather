@@ -3,16 +3,13 @@ package com.example.eliteweatherapp
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import com.example.eliteweatherapp.databinding.ActivityMainBinding
 import okhttp3.Headers
-import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,7 +37,6 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-
         // Set up RecyclerView
         bodyAdapter = BodyAdapter(
             onRefresh = {
@@ -62,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         val url = "$BASE_URL/forecast.json?key=$API_KEY&q=$location&days=3&aqi=yes"
 
         client.get(url, object : JsonHttpResponseHandler() {
-            override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
+            override fun onSuccess(statusCode: Int, headers: Headers?, json: com.codepath.asynchttpclient.callback.JsonHttpResponseHandler.JSON?) {
                 try {
                     val jsonObj = json?.jsonObject ?: return
 
@@ -93,6 +89,25 @@ class MainActivity : AppCompatActivity() {
                         forecastItems.add(ForecastItem(label, avgTemp, icon))
                     }
 
+                    // Parse hourly forecast from first day
+                    val hourlyForecastItems = mutableListOf<HourlyForecastItem>()
+                    val hourArray = forecastArray.getJSONObject(0).getJSONArray("hour")
+                    for (i in 0 until hourArray.length()) {
+                        val hourObj = hourArray.getJSONObject(i)
+                        val time = hourObj.getString("time") // "2025-07-23 00:00"
+                        val formattedTime = time.substringAfter(" ").substringBeforeLast(":") // "00:00"
+                        val hourPart = formattedTime.substringBefore(":").toInt()
+                        val amPmTime = when {
+                            hourPart == 0 -> "12 AM"
+                            hourPart < 12 -> "$hourPart AM"
+                            hourPart == 12 -> "12 PM"
+                            else -> "${hourPart - 12} PM"
+                        }
+                        val tempHour = hourObj.getDouble("temp_c").toInt()
+                        val iconHour = "https:" + hourObj.getJSONObject("condition").getString("icon")
+                        hourlyForecastItems.add(HourlyForecastItem(amPmTime, tempHour, iconHour))
+                    }
+
                     runOnUiThread {
                         bodyAdapter.updateData(
                             city = city,
@@ -101,6 +116,7 @@ class MainActivity : AppCompatActivity() {
                             conditionText = conditionText,
                             iconUrl = iconUrl,
                             forecastList = forecastItems,
+                            hourlyForecastList = hourlyForecastItems,
                             airQualityIndex = epaIndex
                         )
 
@@ -147,8 +163,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun hideKeyboard() {
         val imm = getSystemService(INPUT_METHOD_SERVICE) as? android.view.inputmethod.InputMethodManager
-        currentFocus?.let {
-                view -> imm?.hideSoftInputFromWindow(view.windowToken, 0)
+        currentFocus?.let { view ->
+            imm?.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
 }
