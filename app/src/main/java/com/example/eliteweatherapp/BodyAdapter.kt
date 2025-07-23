@@ -15,26 +15,23 @@ class BodyAdapter(
     private var iconUrl: String = "",
     private var forecastList: List<ForecastItem> = listOf(),
     private var airQualityIndex: String = "",
-    private val onSearch: (String) -> Unit,
     private val onRefresh: () -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
-        private const val TYPE_SEARCH = 0
-        private const val TYPE_CURRENT = 1
-        private const val TYPE_REFRESH_BUTTON = 2
-        private const val TYPE_FORECAST_LIST = 3
-        private const val TYPE_AQI = 4
+        private const val TYPE_CURRENT = 0
+        private const val TYPE_REFRESH_BUTTON = 1
+        private const val TYPE_FORECAST_LIST = 2
+        private const val TYPE_AQI = 3
     }
 
-    override fun getItemCount(): Int = 5
+    override fun getItemCount(): Int = 4
 
     override fun getItemViewType(position: Int): Int = when (position) {
-        0 -> TYPE_SEARCH
-        1 -> TYPE_CURRENT
-        2 -> TYPE_REFRESH_BUTTON
-        3 -> TYPE_FORECAST_LIST
-        4 -> TYPE_AQI
+        0 -> TYPE_CURRENT
+        1 -> TYPE_REFRESH_BUTTON
+        2 -> TYPE_FORECAST_LIST
+        3 -> TYPE_AQI
         else -> throw IllegalArgumentException("Invalid view type")
     }
 
@@ -42,10 +39,6 @@ class BodyAdapter(
         val inflater = LayoutInflater.from(parent.context)
 
         return when (viewType) {
-            TYPE_SEARCH -> {
-                val view = inflater.inflate(R.layout.search_bar, parent, false)
-                SearchViewHolder(view)
-            }
             TYPE_CURRENT -> {
                 val view = inflater.inflate(R.layout.current_weather_container, parent, false)
                 CurrentWeatherViewHolder(view)
@@ -89,9 +82,6 @@ class BodyAdapter(
                     onRefresh()
                 }
             }
-
-
-            // No binding needed for static headers or search bar for now
         }
     }
 
@@ -114,8 +104,6 @@ class BodyAdapter(
         notifyDataSetChanged()
     }
 
-    class SearchViewHolder(view: View) : RecyclerView.ViewHolder(view)
-
     class CurrentWeatherViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val location: TextView = view.findViewById(R.id.current_location)
         val temp: TextView = view.findViewById(R.id.current_temp)
@@ -128,9 +116,7 @@ class BodyAdapter(
         val button: Button = view.findViewById(R.id.refresh_button)
     }
 
-
     class ForecastListViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-
         private val dayLabels = arrayOf<TextView>(
             view.findViewById(R.id.day1_label),
             view.findViewById(R.id.day2_label),
