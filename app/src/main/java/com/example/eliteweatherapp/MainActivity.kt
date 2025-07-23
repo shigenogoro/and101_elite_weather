@@ -1,139 +1,105 @@
 package com.example.eliteweatherapp
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.codepath.asynchttpclient.AsyncHttpClient
-import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
-import com.example.eliteweatherapp.BuildConfig
+import com.example.eliteweatherapp.BodyAdapter
 import com.example.eliteweatherapp.databinding.ActivityMainBinding
-import okhttp3.Headers
-import org.json.JSONArray
+import com.example.eliteweatherapp.ForecastItem
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import org.json.JSONObject
+import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val baseURL = "https://api.weatherapi.com/v1/"
-    private var currentLocation: String = "Amherst" // Store current location for refresh
+    private lateinit var bodyAdapter: BodyAdapter
+
+    private val executor = Executors.newSingleThreadExecutor()
+    private val client = OkHttpClient()
+    private val API_KEY = BuildConfig.WEATHER_API_KEY
+    private var currentLocation = "Boston"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Trigger Search on Enter Key
-        binding.searchLocation.setOnEditorActionListener { v, _, _ ->
-            val location = v.text.toString()
-            if(location.isNotEmpty()) {
-                // Update current location and fetch weather
+        // Setup RecyclerView
+        bodyAdapter = BodyAdapter(
+            onSearch = { location ->
                 currentLocation = location
                 fetchWeatherData(location, isRefresh = false)
-                hideKeyboard()
+            },
+            onRefresh = {
+                fetchWeatherData(currentLocation, isRefresh = true)
             }
-            true
-        }
+        )
 
-        // Trigger Refresh Button
-        binding.refreshButton.setOnClickListener {
-            // Use stored current location for refresh
-            fetchWeatherData(currentLocation, isRefresh = true)
-        }
+        binding.bodyContent.layoutManager = LinearLayoutManager(this)
+        binding.bodyContent.adapter = bodyAdapter
 
-        // Default Fetch
-        fetchWeatherData("Amherst", isRefresh = false)
+        fetchWeatherData(currentLocation, isRefresh = false)
     }
 
-    private fun fetchWeatherData(location: String, isRefresh: Boolean = false) {
-        val client = AsyncHttpClient()
-        val url = "$baseURL/forecast.json?key=${BuildConfig.WEATHER_API_KEY}&q=$location&days=3&aqi=yes"
+    private fun fetchWeatherData(location: String, isRefresh: Boolean) {
+        executor.execute {
+            try {
+                val url = "https://api.weatherapi.com/v1/forecast.json?key=$API_KEY&q=$location&days=3&aqi=yes&alerts=no"
+                val request = Request.Builder().url(url).build()
+                val response = client.newCall(request).execute()
+                val json = JSONObject(response.body?.string() ?: "")
 
-        client.get(url, object : JsonHttpResponseHandler() {
-            override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
-                try {
-                    val body = json?.jsonObject ?: return
-                    val locationObj = body.getJSONObject("location")
-                    val current = body.getJSONObject("current")
-                    val condition = current.getJSONObject("condition")
-                    val forecast = body.getJSONObject("forecast").getJSONArray("forecastday")
-                    val airQuality = current.getJSONObject("air_quality")
+                val city = json.getJSONObject("location").getString("name")
+                val current = json.getJSONObject("current")
+                val temp = current.getDouble("temp_c").toInt().toString()
+                val feelsLike = current.getDouble("feelslike_c").toInt().toString()
+                val conditionText = current.getJSONObject("condition").getString("text")
+                val iconUrl = "https:" + current.getJSONObject("condition").getString("icon")
+                val forecast = json.getJSONObject("forecast").getJSONArray("forecastday")
+                val aqi = json.getJSONObject("current").getJSONObject("air_quality")
+                val epaIndex = aqi.getDouble("us-epa-index").toInt().toString()
 
-                    // Current weather
-                    val city = locationObj.getString("name")
-                    val temp = current.getDouble("temp_c").toInt()
-                    val feelsLike = current.getDouble("feelslike_c").toInt()
-                    val conditionText = condition.getString("text")
-                    val iconUrl = "https:" + condition.getString("icon")
-
-                    // Store the current location for refresh usage
-                    currentLocation = location
-
-                    Log.d("WEATHER", "City: $city | Temp: $temp | Feels: $feelsLike | $conditionText")
-
-                    runOnUiThread {
-                        binding.currentLocation.text = city
-                        binding.currentTemp.text = "$temp°C"
-                        binding.feellikeTemp.text = "Feels like: $feelsLike°C"
-                        binding.currentCondition.text = conditionText
-                        Glide.with(this@MainActivity).load(iconUrl).into(binding.currentWeatherIcon)
-
-                        // Show toast if this is a refresh action
-                        if (isRefresh) {
-                            Toast.makeText(this@MainActivity, "Weather refreshed for $city", Toast.LENGTH_SHORT).show()
-                        }
+                val forecastItems = mutableListOf<ForecastItem>()
+                for (i in 0 until 3) {
+                    val day = forecast.getJSONObject(i)
+                    val date = day.getString("date")
+                    val avgTemp = day.getJSONObject("day").getDouble("avgtemp_c").toInt()
+                    val icon = "https:" + day.getJSONObject("day")
+                        .getJSONObject("condition").getString("icon")
+                    val label = when (i) {
+                        0 -> "Today"
+                        1 -> "Tomorrow"
+                        else -> date
                     }
+                    forecastItems.add(ForecastItem(label, avgTemp.toString(), icon))
+                }
 
-                    // Forecast loop (Today, Tomorrow, +1)
-                    val dayLabels = arrayOf(binding.day1Label, binding.day2Label, binding.day3Label)
-                    val dayTemps = arrayOf(binding.day1Temp, binding.day2Temp, binding.day3Temp)
-                    val dayIcons = arrayOf(binding.day1Icon, binding.day2Icon, binding.day3Icon)
+                runOnUiThread {
+                    bodyAdapter.updateData(
+                        city = city,
+                        temp = temp,
+                        feelsLike = feelsLike,
+                        conditionText = conditionText,
+                        iconUrl = iconUrl,
+                        forecastList = forecastItems,
+                        airQualityIndex = epaIndex
+                    )
 
-                    for (i in 0 until 3) {
-                        val forecastDay = forecast.getJSONObject(i)
-                        val date = forecastDay.getString("date")
-                        val avgTemp = forecastDay.getJSONObject("day").getDouble("avgtemp_c").toInt()
-                        val icon = "https:" + forecastDay.getJSONObject("day")
-                            .getJSONObject("condition").getString("icon")
-
-                        Log.d("FORECAST", "Day $i: $date | $avgTemp°C")
-
-                        runOnUiThread {
-                            dayLabels[i].text = when (i) {
-                                0 -> "Today"
-                                1 -> "Tomorrow"
-                                else -> date
-                            }
-                            dayTemps[i].text = "$avgTemp°C"
-                            Glide.with(this@MainActivity).load(icon).into(dayIcons[i])
-                        }
+                    if (isRefresh) {
+                        Toast.makeText(this, "Weather refreshed for $city", Toast.LENGTH_SHORT).show()
                     }
+                }
 
-                    // Air Quality
-                    val epaIndex = airQuality.getInt("us-epa-index")
-                    runOnUiThread {
-                        binding.airQualityIndex.text = "Index $epaIndex"
-                    }
-
-                } catch (e: Exception) {
-                    Log.e("WEATHER", "Parsing error", e)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                runOnUiThread {
+                    Toast.makeText(this, "Failed to fetch weather for $location", Toast.LENGTH_SHORT).show()
                 }
             }
-
-            override fun onFailure(statusCode: Int, headers: Headers?, response: String?, throwable: Throwable?) {
-                Log.e("WEATHER", "API call failed", throwable)
-            }
-        })
-    }
-
-    private fun hideKeyboard() {
-        val imm = getSystemService(INPUT_METHOD_SERVICE) as? android.view.inputmethod.InputMethodManager
-        currentFocus?.let {
-            view -> imm?.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
 }

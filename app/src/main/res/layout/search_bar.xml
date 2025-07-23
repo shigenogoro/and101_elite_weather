@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EditText xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/searchLocation"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:hint="@string/enter_location"
+    android:background="@drawable/search_background"
+    android:drawableStart="@android:drawable/ic_menu_search"
+    android:inputType="textCapWords"
+    android:textColor="@android:color/white"
+    android:textColorHint="#CCCCCC"
+    android:paddingHorizontal="12dp"
+    android:layout_marginBottom="8dp"/>
