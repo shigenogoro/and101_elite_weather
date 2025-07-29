@@ -1,31 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.EliteWeatherApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <!-- Primary Brand Color -->
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textColorHint">@color/text_secondary</item>
         <item name="colorPrimary">@color/header_start_color</item>
-        <item name="colorOnPrimary">@color/white</item>
-
-        <!-- Secondary Brand Color -->
         <item name="colorSecondary">@color/header_end_color</item>
-        <item name="colorOnSecondary">@color/white</item>
-
-        <!-- Background Color -->
-        <item name="android:windowBackground">@color/white</item>
-
-        <!-- Text Color -->
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textColorHint">@color/dark_gray</item>
-
-        <!-- Font -->
         <item name="fontFamily">@font/sansation</item>
     </style>
 
     <style name="Theme.EliteWeatherApp" parent="Base.Theme.EliteWeatherApp" />
-
-    <stye name="SearchBarLightMode" parent="Base.Theme.EliteWeatherApp">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textColorHint">@color/dark_gray</item>
-    </stye>
 </resources>
