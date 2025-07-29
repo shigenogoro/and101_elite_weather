@@ -6,4 +6,11 @@
     <!-- Header Color   -->
     <color name="header_start_color">#0B1C2E</color> <!-- Dark Navy Blue -->
     <color name="header_end_color">#C2574D</color> <!-- Coral red -->
+
+    <!-- Components Background Color  -->
+    <color name="component_background">#CCCCCC</color> <!-- Light Gray -->
+
+    <!-- Text Color -->
+    <color name="dark_gray">#333333</color> <!-- Dark Gray -->
+    <color name="night_view_hint_color">#CCCCCC</color> <!-- Light Gray -->
 </resources>

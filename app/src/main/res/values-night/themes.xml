@@ -3,5 +3,24 @@
     <style name="Base.Theme.EliteWeatherApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+
+        <!-- Primary Brand Color -->
+        <item name="colorPrimary">@color/header_start_color</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Secondary Brand Color -->
+        <item name="colorSecondary">@color/header_end_color</item>
+        <item name="colorOnSecondary">@color/white</item>
+
+        <!-- Background Color -->
+        <item name="android:windowBackground">@color/header_start_color</item>
+
+        <!-- Text Color -->
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/night_view_hint_color</item>
+
+        <!-- Font -->
+        <item name="fontFamily">@font/sansation</item>
+
     </style>
 </resources>
