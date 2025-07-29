@@ -1,5 +1,6 @@
 package com.example.eliteweatherapp
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.EditorInfo
@@ -24,6 +25,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         // Switch to dark mode if system is in dark mode
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+
+        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        when (currentNightMode) {
+            Configuration.UI_MODE_NIGHT_YES -> Log.d("Theme", "Dark mode is active")
+            Configuration.UI_MODE_NIGHT_NO -> Log.d("Theme", "Light mode is active")
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> Log.d("Theme", "Theme mode undefined")
+        }
 
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
