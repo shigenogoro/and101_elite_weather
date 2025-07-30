@@ -16,7 +16,7 @@
         android:textColor="@color/text_primary"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_marginTop="8dp" />
+        android:layout_marginBottom="8dp" />
 
     <!-- Air Quality Card -->
     <LinearLayout
