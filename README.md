@@ -4,7 +4,7 @@
 
 Submitted by: **Sheng-Kai Wen**
 
-Time spent: **16** hours spent in total
+Time spent: **5** hours spent in total
 
 ## Summary
 
