@@ -9,6 +9,7 @@
 
     <!-- Light Theme Colors -->
     <color name="background">#FFFFFF</color>
+    <color name="background_dark">#A09F9F</color>
     <color name="text_primary">#0B1C2E</color>
-    <color name="text_secondary">#333333</color>
+    <color name="text_secondary">#434343</color>
 </resources>

@@ -1,7 +1,9 @@
 package com.example.eliteweatherapp
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.eliteweatherapp.databinding.HourlyForecastItemBinding
@@ -29,6 +31,24 @@ class HourlyForecastAdapter(private val hourlyList: List<HourlyForecastItem>) :
             Glide.with(binding.hourIcon.context)
                 .load(item.iconUrl)
                 .into(binding.hourIcon)
+
+            binding.hourConditionBubble.text = item.conditionText
+
+            binding.hourIcon.setOnLongClickListener {
+                binding.hourConditionBubble.visibility = View.VISIBLE
+
+                // Auto-hide after 2 seconds
+                binding.hourConditionBubble.postDelayed({
+                    binding.hourConditionBubble.visibility = View.GONE
+                }, 2000)
+
+                true
+            }
+
+            // Hide the bubble when clicking on the icon
+            binding.hourIcon.setOnClickListener {
+                binding.hourConditionBubble.visibility = View.GONE
+            }
         }
     }
 }

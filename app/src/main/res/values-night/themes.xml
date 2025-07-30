@@ -5,6 +5,7 @@
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
 _
         <item name="android:windowBackground">@color/background</item>
+        <item name="colorSurface">@color/background</item>
         <item name="android:textColor">@color/text_primary</item>
         <item name="android:textColorHint">@color/text_secondary</item>
         <item name="colorPrimary">@color/header_start_color</item>

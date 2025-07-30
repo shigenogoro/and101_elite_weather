@@ -178,12 +178,34 @@ class BodyAdapter(
             view.findViewById(R.id.day3_icon)
         )
 
+        private val dayConditions = arrayOf<TextView>(
+            view.findViewById(R.id.day1_condition),
+            view.findViewById(R.id.day2_condition),
+            view.findViewById(R.id.day3_condition)
+        )
+
         fun bind(forecasts: List<ForecastItem>) {
             for (i in forecasts.indices) {
                 val forecast = forecasts[i]
+
                 dayLabels[i].text = forecast.date
                 dayTemps[i].text = "${forecast.avgTemp}°C"
                 Glide.with(view.context).load(forecast.iconUrl).into(dayIcons[i])
+                dayConditions[i].text = forecast.conditionText
+                dayConditions[i].visibility = View.GONE // Initially hidden
+
+                // Store reference to bubble and icon
+                val bubble = dayConditions[i]
+                val icon = dayIcons[i]
+
+                icon.setOnClickListener {
+                    bubble.visibility = View.VISIBLE
+
+                    // Hide after 2 seconds
+                    bubble.postDelayed({
+                        bubble.visibility = View.GONE
+                    }, 2000)
+                }
             }
         }
     }

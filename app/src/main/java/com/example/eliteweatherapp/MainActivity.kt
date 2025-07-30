@@ -95,7 +95,8 @@ class MainActivity : AppCompatActivity() {
                             1 -> "Tomorrow"
                             else -> date
                         }
-                        forecastItems.add(ForecastItem(label, avgTemp, icon))
+                        val conditionTextDay = day.getJSONObject("day").getJSONObject("condition").getString("text")
+                        forecastItems.add(ForecastItem(label, avgTemp, icon, conditionTextDay))
                     }
 
                     // Parse hourly forecast from first day
@@ -114,7 +115,8 @@ class MainActivity : AppCompatActivity() {
                         }
                         val tempHour = hourObj.getDouble("temp_c").toInt()
                         val iconHour = "https:" + hourObj.getJSONObject("condition").getString("icon")
-                        hourlyForecastItems.add(HourlyForecastItem(amPmTime, tempHour, iconHour))
+                        val conditionTextHour = hourObj.getJSONObject("condition").getString("text")
+                        hourlyForecastItems.add(HourlyForecastItem(amPmTime, tempHour, iconHour, conditionTextHour))
                     }
 
                     runOnUiThread {
@@ -126,7 +128,7 @@ class MainActivity : AppCompatActivity() {
                             iconUrl = iconUrl,
                             forecastList = forecastItems,
                             hourlyForecastList = hourlyForecastItems,
-                            airQualityIndex = epaIndex
+                            airQualityIndex = epaIndex,
                         )
 
                         if (isRefresh) {
