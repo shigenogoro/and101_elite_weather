@@ -13,9 +13,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/forecast_title"
-        android:textColor="@android:color/white"
+        android:textColor="@color/text_primary"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp" />
 
     <!-- Day 1 Forecast -->
@@ -35,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/forecast_today_title"
-            android:textColor="@android:color/white"
+            android:textColor="@color/text_primary"
             android:textSize="18sp" />
 
         <ImageView
@@ -49,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textColor="@android:color/white"
+            android:textColor="@color/text_primary"
             android:layout_marginStart="8dp" />
     </LinearLayout>
 
@@ -70,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/forecast_tomorrow_title"
-            android:textColor="@android:color/white"
+            android:textColor="@color/text_primary"
             android:textSize="18sp" />
 
         <ImageView
@@ -84,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textColor="@android:color/white"
+            android:textColor="@color/text_primary"
             android:layout_marginStart="8dp" />
     </LinearLayout>
 
@@ -104,7 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/forecast_day_after_title"
-            android:textColor="@android:color/white"
+            android:textColor="@color/text_primary"
             android:textSize="18sp" />
 
         <ImageView
@@ -118,7 +119,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textColor="@android:color/white"
+            android:textColor="@color/text_primary"
             android:layout_marginStart="8dp" />
     </LinearLayout>
 

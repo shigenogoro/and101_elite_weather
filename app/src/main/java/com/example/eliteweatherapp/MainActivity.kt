@@ -1,10 +1,12 @@
 package com.example.eliteweatherapp
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
@@ -21,6 +23,13 @@ class MainActivity : AppCompatActivity() {
     private var currentLocation = "Amherst"
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        when (currentNightMode) {
+            Configuration.UI_MODE_NIGHT_YES -> Log.d("Theme", "Dark mode is active")
+            Configuration.UI_MODE_NIGHT_NO -> Log.d("Theme", "Light mode is active")
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> Log.d("Theme", "Theme mode undefined")
+        }
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
