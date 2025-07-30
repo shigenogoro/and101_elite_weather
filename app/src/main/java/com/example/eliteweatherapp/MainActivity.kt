@@ -23,9 +23,6 @@ class MainActivity : AppCompatActivity() {
     private var currentLocation = "Amherst"
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Switch to dark mode if system is in dark mode
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         when (currentNightMode) {
             Configuration.UI_MODE_NIGHT_YES -> Log.d("Theme", "Dark mode is active")

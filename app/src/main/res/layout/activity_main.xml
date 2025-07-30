@@ -6,8 +6,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="?attr/android:windowBackground">
+    android:background="@color/background"
+    tools:context=".MainActivity">
 
     <!-- Header -->
     <LinearLayout
@@ -58,6 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="128dp"
+        android:background="@android:color/transparent"
         app:layout_constraintTop_toBottomOf="@id/searchLocation"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
