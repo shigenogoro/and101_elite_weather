@@ -33,7 +33,8 @@ The following STRETCH features are implemented:
 
 The following EXTRA features are implemented:
 
-- [ ] List anything else that you added to improve the app!
+- [x] List anything else that you added to improve the app!
+- Add condition text bubbles to hourly forecast and daily forecast
 
 ## API Choice
 
